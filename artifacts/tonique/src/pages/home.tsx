@@ -33,9 +33,9 @@ export default function Home() {
           <motion.h2 variants={fadeUp} className="text-primary tracking-[0.3em] uppercase text-sm md:text-base mb-6 font-semibold">
             Welcome to Tonique
           </motion.h2>
-          <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl lg:text-8xl text-white font-display leading-tight mb-8">
-            Craft Cocktails. <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-amber-200 italic font-light">Unforgettable</span> Nights.
+          <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl text-white font-display leading-snug mb-8">
+            Craft Cocktails.<br/>
+            <span className="text-primary">Unforgettable Nights.</span>
           </motion.h1>
           <motion.p variants={fadeUp} className="text-lg md:text-xl text-white/70 mb-12 max-w-2xl mx-auto font-light">
             An immersive dining and nightlife experience blending culinary excellence with electrifying ambiance.

@@ -16,13 +16,28 @@ export function Footer() {
               Where luxury meets nightlife. Experience craft cocktails and unforgettable moments in the heart of the city.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-primary hover:text-primary hover:bg-primary/10 transition-all duration-300">
+              <a
+                href="https://www.instagram.com/tonique.guntur"
+                target="_blank" rel="noopener noreferrer"
+                aria-label="Tonique on Instagram"
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-primary hover:text-primary hover:bg-primary/10 transition-all duration-300"
+              >
                 <Instagram size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-primary hover:text-primary hover:bg-primary/10 transition-all duration-300">
+              <a
+                href="https://www.facebook.com/tonique.guntur"
+                target="_blank" rel="noopener noreferrer"
+                aria-label="Tonique on Facebook"
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-primary hover:text-primary hover:bg-primary/10 transition-all duration-300"
+              >
                 <Facebook size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-primary hover:text-primary hover:bg-primary/10 transition-all duration-300">
+              <a
+                href="https://twitter.com/tonique_guntur"
+                target="_blank" rel="noopener noreferrer"
+                aria-label="Tonique on Twitter"
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-primary hover:text-primary hover:bg-primary/10 transition-all duration-300"
+              >
                 <Twitter size={18} />
               </a>
             </div>
@@ -43,18 +58,31 @@ export function Footer() {
           <div className="flex flex-col items-center md:items-start">
             <h4 className="font-display text-lg tracking-widest text-white mb-6 uppercase">Contact</h4>
             <div className="flex flex-col gap-4 text-center md:text-left">
-              <p className="text-white/60 flex items-center justify-center md:justify-start gap-3">
-                <MapPin size={18} className="text-primary" />
-                123 Luxury Ave, NY 10012
-              </p>
-              <p className="text-white/60 flex items-center justify-center md:justify-start gap-3">
-                <Phone size={18} className="text-primary" />
-                +1 (555) 123-4567
-              </p>
-              <p className="text-white/60 flex items-center justify-center md:justify-start gap-3">
-                <Mail size={18} className="text-primary" />
-                reservations@tonique.com
-              </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Tonique+Restaurant+and+Bar+Guntur"
+                target="_blank" rel="noopener noreferrer"
+                className="text-white/60 flex items-center justify-center md:justify-start gap-3 hover:text-primary transition-colors"
+                aria-label="Open location in Google Maps"
+              >
+                <MapPin size={18} className="text-primary flex-shrink-0" />
+                8CJ9+2G5, JKC College Rd, Guntur
+              </a>
+              <a
+                href="tel:+919989777077"
+                className="text-white/60 flex items-center justify-center md:justify-start gap-3 hover:text-primary transition-colors"
+                aria-label="Call Tonique"
+              >
+                <Phone size={18} className="text-primary flex-shrink-0" />
+                +91 99897 77077
+              </a>
+              <a
+                href="mailto:info@tonique.com"
+                className="text-white/60 flex items-center justify-center md:justify-start gap-3 hover:text-primary transition-colors"
+                aria-label="Email Tonique"
+              >
+                <Mail size={18} className="text-primary flex-shrink-0" />
+                info@tonique.com
+              </a>
             </div>
           </div>
 
@@ -63,16 +91,8 @@ export function Footer() {
             <h4 className="font-display text-lg tracking-widest text-white mb-6 uppercase">Hours</h4>
             <ul className="text-white/60 space-y-2">
               <li className="flex justify-between w-full max-w-[200px]">
-                <span>Mon - Wed</span>
-                <span className="text-white">5PM - 1AM</span>
-              </li>
-              <li className="flex justify-between w-full max-w-[200px]">
-                <span>Thu - Sat</span>
-                <span className="text-primary">5PM - 3AM</span>
-              </li>
-              <li className="flex justify-between w-full max-w-[200px]">
-                <span>Sunday</span>
-                <span className="text-white">4PM - 12AM</span>
+                <span>Daily</span>
+                <span className="text-primary">10AM – 11PM</span>
               </li>
             </ul>
           </div>
@@ -83,8 +103,8 @@ export function Footer() {
             © {new Date().getFullYear()} Tonique Restaurant & Bar. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-white/40">
-            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

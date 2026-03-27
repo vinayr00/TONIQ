@@ -43,11 +43,13 @@ export default function Menu() {
     <div className="min-h-screen bg-background pt-24 pb-32">
       {/* Header */}
       <div className="py-20 text-center relative border-b border-white/5 bg-zinc-950">
-        <div className="absolute inset-0 flex justify-center items-center opacity-5 pointer-events-none overflow-hidden">
-          <span className="text-[20vw] font-display font-bold whitespace-nowrap">MENU</span>
+        <div className="absolute inset-0 flex justify-center items-center opacity-10 pointer-events-none overflow-hidden">
+          <span className="text-[20vw] font-display font-bold whitespace-nowrap text-primary">MENU</span>
         </div>
         <div className="relative z-10 max-w-4xl mx-auto px-4">
-          <h1 className="text-5xl md:text-7xl text-white font-display mb-6">Culinary Curations</h1>
+          <h1 className="text-5xl md:text-7xl text-white font-display mb-6">
+            Culinary <span className="text-primary">Curations</span>
+          </h1>
           <p className="text-white/60 text-lg md:text-xl font-light max-w-2xl mx-auto">
             A meticulously crafted selection of dishes and libations designed to tantalize your senses.
           </p>

@@ -140,7 +140,7 @@ export default function Contact() {
         </div>
 
         {/* Private Events Banner */}
-        <div className="border border-primary/30 bg-primary/5 p-12 text-center rounded-sm relative overflow-hidden">
+        {/* <div className="border border-primary/30 bg-primary/5 p-12 text-center rounded-sm relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(245,158,11,0.1)_0%,transparent_100%)]" />
           <div className="relative z-10">
             <h2 className="text-3xl md:text-4xl text-white font-display mb-4">Host A Private Event</h2>
@@ -154,7 +154,7 @@ export default function Contact() {
               Inquire Now
             </Link>
           </div>
-        </div>
+        </div> */}
 
       </div>
     </div>

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Calendar, Clock, Users, User, Phone, CheckCircle2 } from "lucide-react";
+import { Link } from "wouter";
+import { Calendar, Clock, Users, User, Phone, CheckCircle2, Mail } from "lucide-react";
 import { PlaceholderImage } from "@/components/ui/placeholder-image";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +15,24 @@ export default function Reservation() {
   const [submitted, setSubmitted] = useState(false);
   const [selectedTime, setSelectedTime] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const [date, setDate] = useState("");
+  const [bookedTables, setBookedTables] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (date && selectedTime) {
+      fetch(`http://localhost:3000/api/reservations/booked?date=${date}&time=${selectedTime}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.bookedTables) {
+            setBookedTables(data.bookedTables);
+          }
+        })
+        .catch(err => console.error("Failed to check availability"));
+    } else {
+      setBookedTables([]);
+    }
+  }, [date, selectedTime]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,17 +42,25 @@ export default function Reservation() {
     }
     
     const formData = new FormData(e.currentTarget);
-    const data = {
-      name: formData.get("name"),
-      phone: formData.get("phone"),
-      date: formData.get("date"),
-      guests: formData.get("guests"),
-      tableNumber: formData.get("tableNumber"),
-      time: selectedTime,
-    };
+    const tableNumber = formData.get("tableNumber") as string;
+
+    if (!tableNumber) {
+      alert("Please select a table.");
+      return;
+    }
 
     setIsSubmitting(true);
     try {
+      const data = {
+        name: formData.get("name"),
+        phone: formData.get("phone"),
+        email: formData.get("email"),
+        date: formData.get("date"),
+        guests: formData.get("guests"),
+        tableNumber,
+        time: selectedTime,
+      };
+
       const res = await fetch("http://localhost:3000/api/reservations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -63,12 +90,12 @@ export default function Reservation() {
           <p className="text-white/60 mb-8 leading-relaxed">
             Thank you for booking with Tonique. A confirmation email has been sent to you. We look forward to hosting you for an unforgettable evening.
           </p>
-          <button 
-            onClick={() => setSubmitted(false)}
-            className="px-8 py-3 border border-white/20 text-white font-display tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300"
+          <Link 
+            to="/"
+            className="px-8 py-3 border border-white/20 text-white font-display tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300 inline-block"
           >
-            Make Another Booking
-          </button>
+            Go to Home Page
+          </Link>
         </motion.div>
       </div>
     );
@@ -128,6 +155,19 @@ export default function Reservation() {
                 </div>
               </div>
 
+              <div className="space-y-2">
+                <label className="text-xs font-display tracking-widest text-white/60 uppercase flex items-center gap-2">
+                  <Mail size={14} /> Email Address
+                </label>
+                <input 
+                  name="email"
+                  required
+                  type="email" 
+                  className="w-full bg-zinc-900/50 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors placeholder:text-white/30"
+                  placeholder="john@example.com"
+                />
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-display tracking-widest text-white/60 uppercase flex items-center gap-2">
@@ -137,6 +177,8 @@ export default function Reservation() {
                     name="date"
                     required
                     type="date" 
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
                     min={new Date().toISOString().split('T')[0]}
                     className="w-full bg-zinc-900/50 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors color-scheme-dark"
                     style={{ colorScheme: 'dark' }}
@@ -157,25 +199,6 @@ export default function Reservation() {
                   </select>
                 </div>
               </div>
-
-              <div className="grid grid-cols-1 gap-6">
-                <div className="space-y-2">
-                  <label className="text-xs font-display tracking-widest text-white/60 uppercase flex items-center gap-2">
-                    <Users size={14} /> Table Number
-                  </label>
-                  <select 
-                    name="tableNumber"
-                    required
-                    className="w-full bg-zinc-900/50 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors appearance-none"
-                  >
-                    <option value="" disabled selected className="bg-zinc-900">Select Table</option>
-                    {[1,2,3,4,5,6,7,8,9,10].map(num => (
-                      <option key={num} value={`Table ${num}`} className="bg-zinc-900">Table {num}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
               <div className="space-y-4">
                 <label className="text-xs font-display tracking-widest text-white/60 uppercase flex items-center gap-2 mb-4">
                   <Clock size={14} /> Time Slot
@@ -203,6 +226,34 @@ export default function Reservation() {
                       </button>
                     )
                   })}
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-display tracking-widest text-white/60 uppercase flex items-center gap-2">
+                    <Users size={14} /> Table Number
+                  </label>
+                  <select 
+                    name="tableNumber"
+                    required
+                    className="w-full bg-zinc-900/50 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors appearance-none"
+                  >
+                    <option value="" disabled selected className="bg-zinc-900">Select Table</option>
+                    {[1,2,3,4,5,6,7,8,9,10].map(num => {
+                      const tableName = `Table ${num}`;
+                      const isBooked = bookedTables.includes(tableName);
+                      return (
+                        <option 
+                          key={num} 
+                          value={tableName} 
+                          disabled={isBooked}
+                          className={cn("bg-zinc-900", isBooked && "text-white/30")}
+                        >
+                          {tableName} {isBooked ? "(Booked)" : ""}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
 

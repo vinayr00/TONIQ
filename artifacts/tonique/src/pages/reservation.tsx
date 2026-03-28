@@ -15,18 +15,37 @@ export default function Reservation() {
   const [selectedTime, setSelectedTime] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedTime) {
       alert("Please select a time slot.");
       return;
     }
+    
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name"),
+      phone: formData.get("phone"),
+      date: formData.get("date"),
+      guests: formData.get("guests"),
+      tableNumber: formData.get("tableNumber"),
+      time: selectedTime,
+    };
+
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const res = await fetch("http://localhost:3000/api/reservations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error("Failed to book");
       setSubmitted(true);
-    }, 1500);
+    } catch (err) {
+      alert("Failed to confirm reservation. Is your API server running?");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -88,6 +107,7 @@ export default function Reservation() {
                     <User size={14} /> Full Name
                   </label>
                   <input 
+                    name="name"
                     required
                     type="text" 
                     className="w-full bg-zinc-900/50 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors placeholder:text-white/30"
@@ -99,6 +119,7 @@ export default function Reservation() {
                     <Phone size={14} /> Phone Number
                   </label>
                   <input 
+                    name="phone"
                     required
                     type="tel" 
                     className="w-full bg-zinc-900/50 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors placeholder:text-white/30"
@@ -113,6 +134,7 @@ export default function Reservation() {
                     <Calendar size={14} /> Date
                   </label>
                   <input 
+                    name="date"
                     required
                     type="date" 
                     min={new Date().toISOString().split('T')[0]}
@@ -125,11 +147,30 @@ export default function Reservation() {
                     <Users size={14} /> Guests
                   </label>
                   <select 
+                    name="guests"
                     required
                     className="w-full bg-zinc-900/50 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors appearance-none"
                   >
                     {[1,2,3,4,5,6].map(num => (
                       <option key={num} value={num} className="bg-zinc-900">{num} {num === 1 ? 'Person' : 'People'}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-display tracking-widest text-white/60 uppercase flex items-center gap-2">
+                    <Users size={14} /> Table Number
+                  </label>
+                  <select 
+                    name="tableNumber"
+                    required
+                    className="w-full bg-zinc-900/50 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors appearance-none"
+                  >
+                    <option value="" disabled selected className="bg-zinc-900">Select Table</option>
+                    {[1,2,3,4,5,6,7,8,9,10].map(num => (
+                      <option key={num} value={`Table ${num}`} className="bg-zinc-900">Table {num}</option>
                     ))}
                   </select>
                 </div>
